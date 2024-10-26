@@ -1,10 +1,10 @@
 package items;
 
 public class Item implements Comparable<Item>{
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
     // This price is unitary
-    private double price;
+    private final double price;
     // This quantity is the quantity of items to sell
     private int sellQuantity;
 
@@ -45,6 +45,12 @@ public class Item implements Comparable<Item>{
         return sellQuantity;
     }
 
+    public void setSellQuantity(int qty){ this.sellQuantity = qty; }
+
+    public Item cloneItem(){
+        return new Item(this.id, this.name, this.price, this.sellQuantity);
+    }
+
     @Override
     public int compareTo(Item o) {
         return this.name.compareTo(o.name);
@@ -52,11 +58,6 @@ public class Item implements Comparable<Item>{
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", sellQuantity=" + sellQuantity +
-                '}';
+        return "{id: " + this.id + ", count: " + this.sellQuantity + "}";
     }
 }
