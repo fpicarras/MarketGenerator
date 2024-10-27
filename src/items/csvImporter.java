@@ -12,7 +12,7 @@ import items.SimpleItemList;
 public class csvImporter {
     private itemList itemList;
 
-    public csvImporter(String file, itemList itemList) {
+    public static void importCSV(String file, itemList itemList) {
         Item i;
 
         try (CSVReader reader = new CSVReader(new FileReader(file))) {
@@ -30,14 +30,6 @@ public class csvImporter {
             e.printStackTrace();
             // Read the file and add the items to the itemList
         }
-    }
 
-    public static void main(String[] args) {
-        SimpleItemList s = new SimpleItemList();
-        csvImporter csvImporter = new csvImporter("items.csv", s);
-        //s.printItems();
-
-        SimpleItemList s2 = (SimpleItemList) s.searchItem("emerald");
-        s2.printItems();
     }
 }

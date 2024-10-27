@@ -1,6 +1,10 @@
 package items;
 
+import java.util.List;
+
 public interface itemList {
+    public int getSize();
+    public List<Item> getItems();
     public void addItem(Item item);
     public void removeItem(Item item);
     public void updateItem(Item item);

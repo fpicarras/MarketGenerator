@@ -11,8 +11,14 @@ public class SimpleItemList implements itemList{
         l = new ArrayList<>();
     }
 
+    @Override
     public int getSize() {
         return size;
+    }
+
+    @Override
+    public List<Item> getItems() {
+        return l;
     }
 
     @Override

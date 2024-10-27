@@ -1,15 +1,31 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import javax.swing.*;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+import UserInterface.TabsFactory;
+import com.formdev.flatlaf.FlatDarculaLaf;
+import items.SimpleItemList;
+import items.csvImporter;
+import villager.VillagerTab;
+
+public class Main {
+    private static void getCSV(SimpleItemList itemList){
+        csvImporter.importCSV(String.valueOf(Main.class.getResource("/items.csv")).substring(6), itemList);
+    }
+
+    public static void main(String[] args) {
+        try{
+            FlatDarculaLaf.setup();
+            UIManager.setLookAndFeel(new FlatDarculaLaf());
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
+        // Depois, adicionar tabs à factory
+        TabsFactory factory = TabsFactory.getInstance();
+        SimpleItemList itemList = new SimpleItemList();
+        getCSV(itemList);
+        factory.addTab(new VillagerTab(itemList));
+
+
+        SwingUtilities.invokeLater(App::new);
     }
 }

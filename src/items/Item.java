@@ -58,6 +58,6 @@ public class Item implements Comparable<Item>{
 
     @Override
     public String toString() {
-        return "{id: " + this.id + ", count: " + this.sellQuantity + "}";
+        return "{id: \"" + this.id + "\", Count: " + this.sellQuantity + "}";
     }
 }

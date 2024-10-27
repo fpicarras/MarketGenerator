@@ -95,7 +95,8 @@ public class Villager implements Trader {
     }
 
     public void setHelmet(Item helmet) {
-        this.helmet = helmet;
+        this.helmet = helmet.cloneItem();
+        this.helmet.setSellQuantity(1);
     }
 
     public Item getHands() {
@@ -103,7 +104,8 @@ public class Villager implements Trader {
     }
 
     public void setHands(Item hands) {
-        this.hands = hands;
+        this.hands = hands.cloneItem();
+        this.hands.setSellQuantity(1);
     }
 
     public void setPersistence(boolean persistence) {
@@ -138,12 +140,12 @@ public class Villager implements Trader {
 
         sb.append("{buy: ").append(buy.toString());
         if(buy2 != null){
-            sb.append(", buy2: ").append(buy2);
+            sb.append(", buyB: ").append(buy2);
         }
         sb.append(", sell: ").append(sell.toString());
 
         // TODO - Xp and max uses
-        sb.append(", rewardExp: 0b, maxUses: 9999999}");
+        sb.append(", maxUses: 9999999}");
 
         return sb.toString();
     }
@@ -154,22 +156,6 @@ public class Villager implements Trader {
         String VillagerData = "{profession: "+this.profession+", level: "+ this.level + ", type: " + this.type + "}";
         sb.append("VillagerData: ").append(VillagerData).append(", ");
 
-        // Witchcraft moment
-        if(name != null){
-            String CustomName = "\"\\\"" + this.name + "\\\"\"";
-            sb.append("CustomName: ").append(CustomName).append(", ");
-        }
-
-        if(helmet != null){
-            String ArmorItems = "[{}, {}, {}, {id: "+ this.helmet.getId() + ", Count: 1}]";
-            sb.append("ArmorItems: ").append(ArmorItems).append(", ");
-        }
-
-        if(hands != null){
-            String HandItems = "[{id: " + this.hands.getId() + ", Count: 1}]";
-            sb.append("HandItems: ").append(HandItems).append(", ");
-        }
-
         // Generate the trades
         sb.append("Offers: {Recipes: [");
         int sz = trades.size(), i = 0;
@@ -179,6 +165,26 @@ public class Villager implements Trader {
             if(i < sz) sb.append(", ");
         }
         sb.append("]}");
+
+        // Witchcraft moment
+        if(name != null){
+            String CustomName = "\"\\\"" + this.name + "\\\"\"";
+            sb.append(", CustomName: ").append(CustomName);
+        }
+
+        if(helmet != null){
+            if(!helmet.getName().contains("minecraft:air")) {
+                String ArmorItems = "[{}, {}, {}, "+this.helmet+"]";
+                sb.append(", ArmorItems: ").append(ArmorItems);
+            }
+        }
+
+        if(hands != null){
+            if(!hands.getName().contains("minecraft:air")) {
+                String HandItems = "[" + this.hands + "]";
+                sb.append(", HandItems: ").append(HandItems);
+            }
+        }
 
         // Extras
         if(persistence) sb.append(", PersistenceRequired: 1");
@@ -199,18 +205,22 @@ public class Villager implements Trader {
         this.trades.remove(tradeId);
     }
 
+    public void removeTrade(Trade T) {
+        this.trades.remove(T);
+    }
+
     public static void main(String[] args){
         Villager v = new Villager();
 
         Item i1 = new Item("emerald", "Emerald");
-        Item i2 = new Item("dirt", "Dirt Block");
+        Item i2 = new Item("stone", "Stone Block");
 
         Item i3 = new Item("grass_block", "Grass Block");
         Item i4 = new Item("diamond", "Diamond");
 
         Trade t = new Trade();
-        t.addBuyItem(i1, 64);
-        t.addSellItem(i2, 1);
+        t.addBuyItem(i1, 1);
+        t.addSellItem(i2, 16);
         t.addBuyItem(i3, 56);
 
         Trade t2 = new Trade();

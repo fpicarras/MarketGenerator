@@ -61,9 +61,9 @@ public class WaresContract implements Trader{
         if(experience > 0) nbt.append(", experience: ").append(experience);
         if(expiresInSeconds > -1) nbt.append(", expiresInSeconds: ").append(expiresInSeconds);
         if(title != null) nbt.append(", title: '{\"text\":\"").append(title).append("\"}'");
+        if(buyerName != null) nbt.append(", buyerName: '{text: \"").append(buyerName).append("\"}'");
         if(message != null) nbt.append(", message: '{text: \"").append(message).append("\"}'");
-        if(backsideMessage != null) nbt.append(", backsideMessage: '").append(backsideMessage).append("'");
-        if(buyerName != null) nbt.append(", buyerName: '").append(buyerName).append("'");
+        if(backsideMessage != null) nbt.append(", backsideMessage: '{text: \"").append(backsideMessage).append("\"}'");
 
         return "/give @p wares:sealed_delivery_agreement{"+ nbt +"}";
     }
@@ -84,11 +84,15 @@ public class WaresContract implements Trader{
 
         Trade t = new Trade();
         t.addBuyItem(i1, 64);
+        t.addBuyItem(i1, 64);
         t.addSellItem(i2, 1);
 
         WaresContract wc = new WaresContract(t);
         wc.addTrade(t);
         wc.setBacksideMessage("Olá Mãe!");
+        wc.setBuyerName("João Eduardo");
+        wc.setMessage("Olá Mundo!");
+        wc.setTitle("Contrato de Venda");
         System.out.println(wc.genCommand());
     }
 }
